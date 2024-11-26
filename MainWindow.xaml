@@ -1,0 +1,58 @@
+<Window x:Class="WpfApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp"
+        mc:Ignorable="d"
+        Title="Sorting Algorithms Visualization" Height="600" Width="1000">
+    <DockPanel>
+        <!-- Menu Bar -->
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="Load CSV..." Click="OnLoadCsvClick"/>
+                <Separator/>
+                <MenuItem Header="Exit" Click="OnExitClick"/>
+            </MenuItem>
+            <MenuItem Header="Algorithm">
+                <MenuItem Header="Selection Sort" Click="OnAlgorithmSelect"/>
+                <MenuItem Header="Insertion Sort" Click="OnAlgorithmSelect"/>
+                <MenuItem Header="Shell Sort" Click="OnAlgorithmSelect"/>
+                <MenuItem Header="Quick Sort" Click="OnAlgorithmSelect"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- Main Content -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="150"/>
+            </Grid.RowDefinitions>
+
+            <!-- Control Panel -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+                <Button x:Name="StartButton" Content="Start" Width="80" Margin="5" Click="OnStartClick" 
+                        IsEnabled="{Binding CanStart}"/>
+                <Button x:Name="StopButton" Content="Stop" Width="80" Margin="5" Click="OnStopClick"
+                        IsEnabled="{Binding CanStop}"/>
+                <Button x:Name="StepForwardButton" Content="Step Forward" Width="80" Margin="5" Click="OnStepForwardClick"
+                        IsEnabled="{Binding CanStepForward}"/>
+                <Button x:Name="StepBackButton" Content="Step Back" Width="80" Margin="5" Click="OnStepBackClick"
+                        IsEnabled="{Binding CanStepBack}"/>
+                <TextBlock Text="Speed:" VerticalAlignment="Center" Margin="10,0"/>
+                <Slider x:Name="SpeedSlider" Width="100" Minimum="0" Maximum="1000" 
+                        Value="500" VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Visualization Panel -->
+            <Canvas x:Name="VisualizationCanvas" Grid.Row="1" Margin="10" Background="LightGray"/>
+
+            <!-- Log Panel -->
+            <DockPanel Grid.Row="2" Margin="10">
+                <TextBlock DockPanel.Dock="Top" Text="Log:" FontWeight="Bold"/>
+                <ListBox x:Name="LogList" />
+            </DockPanel>
+        </Grid>
+    </DockPanel>
+</Window>
