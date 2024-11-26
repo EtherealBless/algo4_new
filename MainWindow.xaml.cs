@@ -4,8 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
-using Microsoft.Win32;
+using System.Windows.Threading;using Microsoft.Win32;
 using WpfApp.Services;
 using WpfApp.Services.Visualization;
 using WpfApp.ViewModels;
@@ -53,26 +52,18 @@ namespace WpfApp
 
         private void OnLoadCsvClick(object sender, RoutedEventArgs e)
         {
-            var openFileDialog = new OpenFileDialog
+            var selectorWindow = new CsvSelectorWindow
             {
-                Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*",
-                FilterIndex = 1
+                Owner = this
             };
 
-            if (openFileDialog.ShowDialog() == true)
+            if (selectorWindow.ShowDialog() == true && selectorWindow.SelectedColumns != null)
             {
-                try
+                // For now, use the first selected column
+                // You might want to modify your viewModel to handle multiple columns
+                if (selectorWindow.SelectedColumns.Any())
                 {
-                    var lines = File.ReadAllLines(openFileDialog.FileName);
-                    var data = lines
-                        .Select(line => double.TryParse(line.Trim(), out double value) ? value : double.NaN)
-                        .Where(value => !double.IsNaN(value));
-                    
-                    viewModel.SetData(data);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error loading file: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    viewModel.SetData(selectorWindow.SelectedColumns[0]);
                 }
             }
         }
