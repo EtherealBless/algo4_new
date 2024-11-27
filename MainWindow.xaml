@@ -21,7 +21,9 @@
                 <MenuItem Header="Quick Sort" Click="OnAlgorithmSelect"/>
                 <MenuItem Header="Merge Sort" Click="OnAlgorithmSelect"/>
                 <MenuItem Header="Natural Merge Sort" Click="OnAlgorithmSelect"/>
+                <MenuItem Header="Polyphase Merge Sort" Click="OnAlgorithmSelect"/>
             </MenuItem>
+            <MenuItem Header="External Sorts" Click="OnExternalSortsClick"/>
         </Menu>
 
         <!-- Main Content -->

@@ -9,7 +9,7 @@ using WpfApp.Models.Steps;
 
 namespace WpfApp.Services.Visualization
 {
-    public abstract class BaseVisualizationService : IVisualizationService
+    public abstract class BaseVisualizationService : IVisualizationService<double>
     {
         protected readonly Canvas visualizationCanvas;
         protected readonly ListBox logList;

@@ -3,11 +3,11 @@ using WpfApp.Models.Steps;
 
 namespace WpfApp.Services
 {
-    public interface IVisualizationService
+    public interface IVisualizationService<T>
     {
-        void DrawArray(double[] array);
-        Task PreVisualizeStep(SortingStep<double> step) { return Task.CompletedTask; }
-        Task VisualizeStep(SortingStep<double> step);
+        void DrawArray(T[] array);
+        Task PreVisualizeStep(SortingStep<T> step) { return Task.CompletedTask; }
+        Task VisualizeStep(SortingStep<T> step);
         void LogMessage(string message);
         void ClearLog();
     }

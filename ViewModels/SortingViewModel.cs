@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -13,8 +14,9 @@ namespace WpfApp.ViewModels
 {
     public class SortingViewModel : INotifyPropertyChanged
     {
-        private IVisualizationService visualizationService = null!;
-        private ISortingAlgorithm<double> currentAlgorithm = null!;
+        private IVisualizationService<double> visualizationService = null!;
+        private ISortingAlgorithm<double>? currentAlgorithm = null!;
+        private IExternalSortingAlgorithm<string>? currentExternalAlgorithm = null!;
         private List<double> data = null!;
         private List<SortingStep<double>> sortingSteps = null!;
         private int currentStepIndex = -1;
@@ -48,7 +50,7 @@ namespace WpfApp.ViewModels
             OnPropertyChanged(nameof(CanStart));
         }
 
-        public void SelectAlgorithm(string algorithmName, IVisualizationService newVisualizationService)
+        public void SelectAlgorithm(string algorithmName, IVisualizationService<double> newVisualizationService)
         {
             visualizationService?.ClearLog();
             visualizationService = newVisualizationService;
@@ -60,7 +62,7 @@ namespace WpfApp.ViewModels
                 "Quick Sort" => new QuickSort<double>(),
                 "Merge Sort" => new MergeSort<double>(),
                 "Natural Merge Sort" => new NaturalMergeSort<double>(),
-                _ => throw new NotImplementedException()
+                _ => null
             };
             ResetVisualization();
             visualizationService.LogMessage($"Selected algorithm: {algorithmName}");
@@ -81,8 +83,18 @@ namespace WpfApp.ViewModels
         {
             if (CanStepForward)
             {
+                Debug.WriteLine($"Stepping forward to step {currentStepIndex + 1}");
                 currentStepIndex++;
-                await visualizationService.VisualizeStep(sortingSteps[currentStepIndex]);
+                try
+                {
+                    await visualizationService.VisualizeStep(sortingSteps[currentStepIndex]);
+                    Debug.WriteLine("Step visualization completed");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error in StepForward: {ex}");
+                    throw;
+                }
                 OnPropertyChanged(nameof(CanStepForward));
                 OnPropertyChanged(nameof(CanStepBack));
             }
@@ -103,12 +115,25 @@ namespace WpfApp.ViewModels
         {
             if (data != null && currentAlgorithm != null)
             {
+                Debug.WriteLine("ResetVisualization started");
                 var dataArray = data.ToArray();
+                Debug.WriteLine("Creating sorting steps");
                 sortingSteps = new List<SortingStep<double>>(currentAlgorithm.Sort(dataArray));
+                Debug.WriteLine($"Created {sortingSteps.Count} sorting steps");
                 currentStepIndex = -1;
+
+                // Initialize visualization based on algorithm type
+                if (visualizationService is PolyphaseMergeSortVisualizationService polyphaseService)
+                {
+                    Debug.WriteLine("Initializing polyphase visualization");
+                    polyphaseService.Initialize(3);
+                }
+
+                Debug.WriteLine("Drawing initial array");
                 visualizationService?.DrawArray(dataArray);
                 OnPropertyChanged(nameof(CanStepForward));
                 OnPropertyChanged(nameof(CanStepBack));
+                Debug.WriteLine("ResetVisualization completed");
             }
         }
 

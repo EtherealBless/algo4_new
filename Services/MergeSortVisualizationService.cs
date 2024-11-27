@@ -6,7 +6,7 @@ using WpfApp.Models.Steps;
 
 namespace WpfApp.Services
 {
-    public class MergeSortVisualizationService : IVisualizationService
+    public class MergeSortVisualizationService : IVisualizationService<double>
     {
         private readonly Visualization.MergeSortVisualization visualization;
         private readonly ListBox logList;

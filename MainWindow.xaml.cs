@@ -93,12 +93,18 @@ namespace WpfApp
             Close();
         }
 
+        private void OnExternalSortsClick(object sender, RoutedEventArgs e)
+        {
+            var externalSortingWindow = new Views.ExternalSortingWindow();
+            externalSortingWindow.Show();
+        }
+
         private void OnAlgorithmSelect(object sender, RoutedEventArgs e)
         {
             if (sender is MenuItem menuItem)
             {
                 var algorithmName = menuItem.Header.ToString();
-                IVisualizationService visualizationService = algorithmName switch
+                IVisualizationService<double> visualizationService = algorithmName switch
                 {
                     "Selection Sort" => new SelectionSortVisualization(VisualizationCanvas, LogList),
                     "Insertion Sort" => new InsertionSortVisualization(VisualizationCanvas, LogList),
@@ -113,13 +119,12 @@ namespace WpfApp
             }
         }
 
-        private IVisualizationService CreateMergeSortVisualization()
+        private IVisualizationService<double> CreateMergeSortVisualization()
         {
             var window = new MergeSortVisualizationWindow();
             window.Show();
             return new MergeSortVisualizationService(window.Visualization, LogList);
         }
-
         private void OnStartClick(object sender, RoutedEventArgs e)
         {
             if (viewModel.CanStart)

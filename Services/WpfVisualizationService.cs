@@ -8,7 +8,7 @@ using WpfApp.Models.Steps;
 
 namespace WpfApp.Services
 {
-    public class WpfVisualizationService : IVisualizationService
+    public class WpfVisualizationService : IVisualizationService<double>
     {
         private readonly Canvas visualizationCanvas;
         private readonly ListBox logList;
