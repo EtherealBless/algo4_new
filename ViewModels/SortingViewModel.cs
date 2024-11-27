@@ -58,6 +58,8 @@ namespace WpfApp.ViewModels
                 "Insertion Sort" => new InsertionSort<double>(),
                 "Shell Sort" => new ShellSort<double>(),
                 "Quick Sort" => new QuickSort<double>(),
+                "Merge Sort" => new MergeSort<double>(),
+                "Natural Merge Sort" => new NaturalMergeSort<double>(),
                 _ => throw new NotImplementedException()
             };
             ResetVisualization();

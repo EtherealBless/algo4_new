@@ -4,7 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;using Microsoft.Win32;
+using System.Windows.Threading;
+using Microsoft.Win32;
 using WpfApp.Services;
 using WpfApp.Services.Visualization;
 using WpfApp.ViewModels;
@@ -18,11 +19,30 @@ namespace WpfApp
 
         public MainWindow()
         {
-            InitializeComponent();
-            viewModel = new SortingViewModel();
-            DataContext = viewModel;
-            InitializeTimer();
-            AllocConsole();
+            try
+            {
+                InitializeComponent();
+                viewModel = new SortingViewModel();
+                DataContext = viewModel;
+                InitializeTimer();
+                AllocConsole();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Caught exception in MainWindow constructor: {ex}");
+            }
+
+            AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+            {
+                Console.WriteLine($"Unhandled exception: {args.ExceptionObject}");
+
+                
+            };
+
+            AppDomain.CurrentDomain.FirstChanceException += (sender, args) =>
+            {
+                Console.WriteLine($"First chance exception: {args.Exception}");
+            };
         }
 
         [System.Runtime.InteropServices.DllImport("kernel32.dll", SetLastError = true)]
@@ -84,11 +104,20 @@ namespace WpfApp
                     "Insertion Sort" => new InsertionSortVisualization(VisualizationCanvas, LogList),
                     "Shell Sort" => new ShellSortVisualization(VisualizationCanvas, LogList),
                     "Quick Sort" => new QuickSortVisualization(VisualizationCanvas, LogList),
+                    "Merge Sort" => CreateMergeSortVisualization(),
+                    "Natural Merge Sort" => CreateMergeSortVisualization(),
                     _ => throw new NotImplementedException()
                 };
 
                 viewModel.SelectAlgorithm(algorithmName, visualizationService);
             }
+        }
+
+        private IVisualizationService CreateMergeSortVisualization()
+        {
+            var window = new MergeSortVisualizationWindow();
+            window.Show();
+            return new MergeSortVisualizationService(window.Visualization, LogList);
         }
 
         private void OnStartClick(object sender, RoutedEventArgs e)

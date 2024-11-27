@@ -19,6 +19,8 @@
                 <MenuItem Header="Insertion Sort" Click="OnAlgorithmSelect"/>
                 <MenuItem Header="Shell Sort" Click="OnAlgorithmSelect"/>
                 <MenuItem Header="Quick Sort" Click="OnAlgorithmSelect"/>
+                <MenuItem Header="Merge Sort" Click="OnAlgorithmSelect"/>
+                <MenuItem Header="Natural Merge Sort" Click="OnAlgorithmSelect"/>
             </MenuItem>
         </Menu>
 
