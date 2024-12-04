@@ -9,7 +9,7 @@ using WpfApp.Models.Steps;
 
 namespace WpfApp.Services.Visualization
 {
-    public abstract class BaseVisualizationService : IVisualizationService<double>
+    public abstract class BaseVisualizationService : IArrayVisualizationService<double>
     {
         protected readonly Canvas visualizationCanvas;
         protected readonly ListBox logList;
@@ -58,10 +58,11 @@ namespace WpfApp.Services.Visualization
 
         public virtual async Task VisualizeStep(SortingStep<double> step)
         {
-
+            if (step is not ArraySortingStep<double>) return;
+            var arrayStep = (ArraySortingStep<double>)step;
 
             var rectangles = GetRectangles();
-            double[] array = step.CurrentArray;
+            double[] array = arrayStep.CurrentArray;
             
             // Calculate scaling factors
             double maxValue = array.Max();
@@ -101,13 +102,13 @@ namespace WpfApp.Services.Visualization
                     break;
             }
 
-            Console.WriteLine(step.GetDescription());
-            Console.WriteLine(string.Join(", ", step.CurrentArray));
+            Console.WriteLine(arrayStep.GetDescription());
+            Console.WriteLine(string.Join(", ", arrayStep.CurrentArray));
 
             // Handle algorithm-specific visualization
-            VisualizeAlgorithmSpecific(step);
+            VisualizeAlgorithmSpecific(arrayStep);
 
-            await Task.Delay(step.DelayMilliseconds);
+            await Task.Delay(arrayStep.DelayMilliseconds);
         }
 
         public abstract void VisualizeAlgorithmSpecific(SortingStep<double> step);

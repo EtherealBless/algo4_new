@@ -20,7 +20,7 @@ namespace WpfApp.Algorithms
             int originalLeftStart = leftStart;  // Store original positions
             int originalRightStart = rightStart;
             int length = end - leftStart + 1;
-
+    
             // Show the subarrays that will be merged
             yield return new MergeStep<T>(array.ToArray(), leftStart, rightStart, length);
 

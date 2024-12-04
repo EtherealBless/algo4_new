@@ -2,7 +2,7 @@ using System;
 
 namespace WpfApp.Models.Steps
 {
-    public class RecursionStep<T> : SortingStep<T>
+    public class RecursionStep<T> : ArraySortingStep<T>
     {
         public int Low { get; }
         public int High { get; }

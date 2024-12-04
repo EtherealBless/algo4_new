@@ -34,13 +34,15 @@ namespace WpfApp.Services.Visualization
 
         public override async Task VisualizeStep(SortingStep<double> step)
         {
+            if (step is not ArraySortingStep<double>) return;
+            var arrayStep = (ArraySortingStep<double>)step;
             // Reset state if this is a backwards step (array has changed)
-            if (!isFirstDraw && step.CurrentArray[0] != GetRectangles()[0].Width)
+            if (!isFirstDraw && arrayStep.CurrentArray[0] != GetRectangles()[0].Width)
             {
                 activeRanges.Clear();
                 currentRecursionLevel = 0;
                 lastPivotIndex = null;
-                base.DrawArray(step.CurrentArray);
+                base.DrawArray(arrayStep.CurrentArray);
 
                 // Rebuild state by replaying all steps up to this point
                 for (int i = 0; i < step.StepIndex; i++)
@@ -62,14 +64,14 @@ namespace WpfApp.Services.Visualization
 
                 // Update indentation for all elements
                 var rectangles = GetRectangles();
-                for (int i = 0; i < step.CurrentArray.Length; i++)
+                for (int i = 0; i < arrayStep.CurrentArray.Length; i++)
                 {
                     Canvas.SetLeft(rectangles[i], GetIndentationLevel(i) * INDENT_WIDTH);
                 }
             }
             else if (isFirstDraw)
             {
-                base.DrawArray(step.CurrentArray);
+                base.DrawArray(arrayStep.CurrentArray);
                 isFirstDraw = false;
             }
             else
@@ -77,7 +79,7 @@ namespace WpfApp.Services.Visualization
 
                 // Update bar widths without redrawing
                 var rectangles = GetRectangles();
-                var array = step.CurrentArray;
+                var array = arrayStep.CurrentArray;
                 double maxValue = array.Max();
                 double minValue = array.Min();
                 double range = maxValue - minValue;
@@ -97,6 +99,8 @@ namespace WpfApp.Services.Visualization
 
         public override void VisualizeAlgorithmSpecific(SortingStep<double> step)
         {
+            if (step is not ArraySortingStep<double>) return;
+            var arrayStep = (ArraySortingStep<double>)step;
             var rectangles = GetRectangles();
 
             if (step is PartitionStep<double> partitionStep)
@@ -107,12 +111,12 @@ namespace WpfApp.Services.Visualization
                 rectangles[partitionStep.PivotIndex].Fill = pivotColor;
 
                 // Color elements based on comparison with pivot
-                double pivotValue = step.CurrentArray[partitionStep.PivotIndex];
+                double pivotValue = arrayStep.CurrentArray[partitionStep.PivotIndex];
                 for (int i = partitionStep.Low; i <= partitionStep.High; i++)
                 {
                     if (i != partitionStep.PivotIndex)
                     {
-                        rectangles[i].Fill = step.CurrentArray[i] <= pivotValue
+                        rectangles[i].Fill = arrayStep.CurrentArray[i] <= pivotValue
                             ? lessThanPivotColor  // Less than or equal to pivot
                             : greaterThanPivotColor;  // Greater than pivot
                     }

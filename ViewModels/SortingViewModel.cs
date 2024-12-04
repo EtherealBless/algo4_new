@@ -44,9 +44,13 @@ namespace WpfApp.ViewModels
 
         public void SetData(IEnumerable<double> newData)
         {
+            if (visualizationService is not IArrayVisualizationService<double> visualization)
+            {
+                return;
+            }
             data = newData.ToList();
             ResetVisualization();
-            visualizationService?.DrawArray(data.ToArray());
+            visualization.DrawArray(data.ToArray());
             OnPropertyChanged(nameof(CanStart));
         }
 
@@ -113,6 +117,10 @@ namespace WpfApp.ViewModels
 
         private void ResetVisualization()
         {
+            if (visualizationService is not IArrayVisualizationService<double> visualization)
+            {
+                return;
+            }
             if (data != null && currentAlgorithm != null)
             {
                 Debug.WriteLine("ResetVisualization started");
@@ -130,7 +138,7 @@ namespace WpfApp.ViewModels
                 }
 
                 Debug.WriteLine("Drawing initial array");
-                visualizationService?.DrawArray(dataArray);
+                visualization.DrawArray(dataArray);
                 OnPropertyChanged(nameof(CanStepForward));
                 OnPropertyChanged(nameof(CanStepBack));
                 Debug.WriteLine("ResetVisualization completed");

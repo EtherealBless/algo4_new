@@ -51,7 +51,7 @@ namespace WpfApp.Algorithms
         public IEnumerable<SortingStep<T>> Sort(T[] array, IComparer<T>? comparer = null)
         {
             comparer ??= Comparer<T>.Default;
-            yield return new AlgorithmStatusStep<T>(array, false);
+            yield return new ArrayAlgorithmStatusStep<T>(array, false);
 
             int gap = array.Length / 2;
 
@@ -74,7 +74,8 @@ namespace WpfApp.Algorithms
                 gap /= 2;
             }
 
-            yield return new AlgorithmStatusStep<T>(array, true);
+            yield return new ArrayAlgorithmStatusStep<T>(array, true);
         }
     }
 }
+

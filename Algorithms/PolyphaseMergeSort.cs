@@ -93,7 +93,7 @@ namespace WpfApp.Algorithms
             }
         }
 
-        private IEnumerable<SortingStep<string>> InitialDistribution(string inputFilePath, string outputFilePath)
+        private IEnumerable<ArraySortingStep<string>> InitialDistribution(string inputFilePath, string outputFilePath)
         {
             // Create initial sorted runs and distribute them across tapes
             using var reader = new StreamReader(inputFilePath);
@@ -143,7 +143,7 @@ namespace WpfApp.Algorithms
             }
         }
 
-        private IEnumerable<SortingStep<string>> MergePhase(List<int> inputTapes, List<int> outputTapes)
+        private IEnumerable<ArraySortingStep<string>> MergePhase(List<int> inputTapes, List<int> outputTapes)
         {
             if (inputTapes.Count == 0) yield break;
 

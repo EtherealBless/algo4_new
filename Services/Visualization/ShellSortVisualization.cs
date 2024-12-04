@@ -29,7 +29,7 @@ namespace WpfApp.Services.Visualization
                 var rectangles = GetRectangles();
 
                 // Color each sub-array with a different color
-                for (int i = 0; i < step.CurrentArray.Length; i++)
+                for (int i = 0; i < gapStep.CurrentArray.Length; i++)
                 {
                     int subArrayIndex = i % currentGap;
                     rectangles[i].Fill = subArrayColors[subArrayIndex % subArrayColors.Length];

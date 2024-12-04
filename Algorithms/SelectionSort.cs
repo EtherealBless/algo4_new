@@ -13,7 +13,7 @@ namespace WpfApp.Algorithms
         public IEnumerable<SortingStep<T>> Sort(T[] array, IComparer<T>? comparer = null)
         {
             comparer ??= Comparer<T>.Default;
-            yield return new AlgorithmStatusStep<T>(array, false);
+            yield return new ArrayAlgorithmStatusStep<T>(array, false);
 
             for (int i = 0; i < array.Length - 1; i++)
             {
@@ -41,7 +41,7 @@ namespace WpfApp.Algorithms
                 yield return new LastSortedElementStep<T>(array, 0, i);
             }
 
-            yield return new AlgorithmStatusStep<T>(array, true);
+            yield return new ArrayAlgorithmStatusStep<T>(array, true);
         }
     }
 }

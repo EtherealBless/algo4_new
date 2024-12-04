@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace WpfApp.Models.Steps
 {
-    public class MergeStep<T> : SortingStep<T>
+    public class MergeStep<T> : ArraySortingStep<T>
     {
         public int LeftStart { get; }
         public int RightStart { get; }

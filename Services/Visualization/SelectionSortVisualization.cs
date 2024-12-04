@@ -20,9 +20,12 @@ namespace WpfApp.Services.Visualization
 
         public override void PreVisualizeStep(SortingStep<double> step)
         {
-            lastSortedIndex = step is LastSortedElementStep<double> moveStep ? moveStep.Index : lastSortedIndex;
+            if (step is not ArraySortingStep<double>) return;
+            var arrayStep = (ArraySortingStep<double>)step;
 
-            for (int i = 0; i <= Math.Min(step.CurrentArray.Length - 1, lastSortedIndex); i++)
+            lastSortedIndex = arrayStep is LastSortedElementStep<double> moveStep ? moveStep.Index : lastSortedIndex;
+
+            for (int i = 0; i <= Math.Min(arrayStep.CurrentArray.Length - 1, lastSortedIndex + 1); i++)
             {
                 var rectangles = GetRectangles();
                 rectangles[i].Fill = sortedPortionColor;
@@ -39,7 +42,7 @@ namespace WpfApp.Services.Visualization
                 rectangles[compareStep.SecondIndex].Fill = minValueColor;
 
                 // Add additional information to log
-                LogMessage($"Current minimum value: {step.CurrentArray[compareStep.SecondIndex]}");
+                LogMessage($"Current minimum value: {compareStep.CurrentArray[compareStep.SecondIndex]}");
             }
         }
     }

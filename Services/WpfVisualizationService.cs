@@ -8,7 +8,7 @@ using WpfApp.Models.Steps;
 
 namespace WpfApp.Services
 {
-    public class WpfVisualizationService : IVisualizationService<double>
+    public class WpfVisualizationService : IArrayVisualizationService<double>
     {
         private readonly Canvas visualizationCanvas;
         private readonly ListBox logList;
@@ -52,10 +52,12 @@ namespace WpfApp.Services
 
         public async Task VisualizeStep(SortingStep<double> step)
         {
-            DrawArray(step.CurrentArray);
+            if (step is not ArraySortingStep<double>) return;
+            var arrayStep = (ArraySortingStep<double>)step;
+            DrawArray(arrayStep.CurrentArray);
             var rectangles = visualizationCanvas.Children.OfType<Rectangle>().ToList();
             
-            switch (step)
+            switch (arrayStep)
             {
                 case CompareStep<double> compareStep:
                     rectangles[compareStep.FirstIndex].Fill = compareColor;

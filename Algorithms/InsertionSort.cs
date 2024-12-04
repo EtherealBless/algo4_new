@@ -15,7 +15,7 @@ namespace WpfApp.Algorithms
 
             comparer ??= Comparer<T>.Default;
 
-            yield return new AlgorithmStatusStep<T>(array, false);
+            yield return new ArrayAlgorithmStatusStep<T>(array, false);
 
             for (int i = 1; i < array.Length; i++)
             {
@@ -38,7 +38,7 @@ namespace WpfApp.Algorithms
                 }
             }
 
-            yield return new AlgorithmStatusStep<T>(array, true);
+            yield return new ArrayAlgorithmStatusStep<T>(array, true);
         }
     }
 }

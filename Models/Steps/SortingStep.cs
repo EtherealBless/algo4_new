@@ -7,19 +7,14 @@ using System.Threading.Tasks;
 
 namespace WpfApp.Models.Steps
 {
-    public abstract class SortingStep<T>
+    public abstract class ArraySortingStep<T> : SortingStep<T>
     {
         public T[] CurrentArray { get; }
-        public int DelayMilliseconds { get; }
-        public int StepIndex { get; set; }  // Position in sequence
-        public List<SortingStep<T>> AllSteps { get; set; } = new();  // Reference to all steps
-        public string? StatusMessage { get; }
 
-        protected SortingStep(T[] array, int delayMilliseconds = 500, string? statusMessage = null)
+        protected ArraySortingStep(T[] array, int delayMilliseconds = 500, string? statusMessage = null)
+        : base(delayMilliseconds, statusMessage)
         {
             CurrentArray = array.ToArray();  // Make a copy of the array
-            DelayMilliseconds = delayMilliseconds;
-            StatusMessage = statusMessage;
         }
 
         // Method to describe what this step does (for UI/logging)
@@ -30,13 +25,13 @@ namespace WpfApp.Models.Steps
     }
 
     // Basic comparison step
-    public class CompareStep<T> : SortingStep<T>
+    public class CompareStep<T> : ArraySortingStep<T>
     {
         public int FirstIndex { get; }
         public int SecondIndex { get; }
         public bool CompareResult { get; }
 
-        public CompareStep(T[] array, int firstIndex, int secondIndex, bool compareResult) 
+        public CompareStep(T[] array, int firstIndex, int secondIndex, bool compareResult)
             : base(array)
         {
             FirstIndex = firstIndex;
@@ -49,12 +44,12 @@ namespace WpfApp.Models.Steps
     }
 
     // Swapping two elements
-    public class SwapStep<T> : SortingStep<T>
+    public class SwapStep<T> : ArraySortingStep<T>
     {
         public int FirstIndex { get; }
         public int SecondIndex { get; }
 
-        public SwapStep(T[] array, int firstIndex, int secondIndex) 
+        public SwapStep(T[] array, int firstIndex, int secondIndex)
             : base(array)
         {
             FirstIndex = firstIndex;
@@ -66,12 +61,12 @@ namespace WpfApp.Models.Steps
     }
 
     // Moving an element to a new position
-    public class MoveStep<T> : SortingStep<T>
+    public class MoveStep<T> : ArraySortingStep<T>
     {
         public int SourceIndex { get; }
         public int TargetIndex { get; }
 
-        public MoveStep(T[] array, int sourceIndex, int targetIndex) 
+        public MoveStep(T[] array, int sourceIndex, int targetIndex)
             : base(array)
         {
             SourceIndex = sourceIndex;
@@ -83,11 +78,11 @@ namespace WpfApp.Models.Steps
     }
 
     // Shell sort gap change
-    public class GapStep<T> : SortingStep<T>
+    public class GapStep<T> : ArraySortingStep<T>
     {
         public int NewGap { get; }
 
-        public GapStep(T[] array, int newGap) 
+        public GapStep(T[] array, int newGap)
             : base(array)
         {
             NewGap = newGap;
@@ -97,14 +92,26 @@ namespace WpfApp.Models.Steps
             $"Changing gap size to {NewGap}";
     }
 
+    public class AlgorithmStatusStep<T> : ArraySortingStep<T>
+    {
+        public string StatusMessage { get; }
+        public bool IsComplete { get; }
+
+        public AlgorithmStatusStep(bool isComplete, string? statusMessage = null) : base(new T[0])
+        {
+            IsComplete = isComplete;
+            StatusMessage = statusMessage;
+        }
+    }
+
 
     // Algorithm status steps
-    public class AlgorithmStatusStep<T> : SortingStep<T>
+    public class ArrayAlgorithmStatusStep<T> : ArraySortingStep<T>
     {
         public bool IsComplete { get; }
         public new string StatusMessage { get; }
 
-        public AlgorithmStatusStep(T[] array, bool isComplete, string? statusMessage = null) 
+        public ArrayAlgorithmStatusStep(T[] array, bool isComplete, string? statusMessage = null)
             : base(array)
         {
             IsComplete = isComplete;
@@ -113,4 +120,28 @@ namespace WpfApp.Models.Steps
 
         public override string GetDescription() => StatusMessage;
     }
+
+
+    public class SortingStep<T>
+    {
+        public int DelayMilliseconds { get; }
+        public int StepIndex { get; set; }  // Position in sequence
+        public List<SortingStep<T>> AllSteps { get; set; } = new();  // Reference to all steps
+        public string? StatusMessage { get; }
+
+        protected SortingStep(int delayMilliseconds = 500, string? statusMessage = null)
+        {
+            DelayMilliseconds = delayMilliseconds;
+            StatusMessage = statusMessage;
+        }
+
+        // Method to describe what this step does (for UI/logging)
+        public virtual string GetDescription()
+        {
+            return StatusMessage ?? "Unknown step";
+        }
+    }
+
+
+
 }

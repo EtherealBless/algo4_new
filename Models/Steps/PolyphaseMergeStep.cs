@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace WpfApp.Models.Steps
 {
-    public class PolyphaseMergeStep<T> : SortingStep<T>
+    public class PolyphaseMergeStep<T> : ArraySortingStep<T>
     {
         public int InputTape { get; }
         public int InputIndex { get; }

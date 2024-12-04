@@ -1,6 +1,6 @@
 namespace WpfApp.Models.Steps
 {
-    public class LastSortedElementStep<T> : SortingStep<T>
+    public class LastSortedElementStep<T> : ArraySortingStep<T>
     {
         public LastSortedElementStep(T[] array, int delayMilliseconds = 500, int index = 0) : base(array, delayMilliseconds)
         {

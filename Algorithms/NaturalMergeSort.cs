@@ -16,7 +16,7 @@ namespace WpfApp.Algorithms
             T[] temp = new T[array.Length];
             Array.Copy(array, temp, array.Length);
 
-            yield return new AlgorithmStatusStep<T>(array.ToArray(), false, "Starting Natural Merge Sort");
+            yield return new ArrayAlgorithmStatusStep<T>(array.ToArray(), false, "Starting Natural Merge Sort");
 
             bool isSorted = false;
             while (!isSorted)
@@ -60,7 +60,7 @@ namespace WpfApp.Algorithms
                 }
             }
 
-            yield return new AlgorithmStatusStep<T>(array.ToArray(), true, "Natural Merge Sort completed");
+            yield return new ArrayAlgorithmStatusStep<T>(array.ToArray(), true, "Natural Merge Sort completed");
         }
     }
 }
