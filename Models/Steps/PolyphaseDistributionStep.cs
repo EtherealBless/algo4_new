@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace WpfApp.Models.Steps
 {
-    public class PolyphaseDistributionStep<T> : SortingStep<T>
+    public class PolyphaseDistributionStep<T> : ArraySortingStep<T>
     {
         public int SourceTapeNumber { get => sourceTapeNumber; }
         public int TargetTapeNumber { get => targetTapeNumber; }

@@ -15,7 +15,7 @@ namespace WpfApp.Algorithms
             comparer ??= Comparer<T>.Default;
             
             // Show initial state
-            yield return new AlgorithmStatusStep<T>(array.ToArray(), false, "Starting Merge Sort");
+            yield return new ArrayAlgorithmStatusStep<T>(array.ToArray(), false, "Starting Merge Sort");
             
             // Create temporary array for merging
             T[] temp = new T[array.Length];
@@ -28,7 +28,7 @@ namespace WpfApp.Algorithms
             }
 
             // Show completion
-            yield return new AlgorithmStatusStep<T>(array.ToArray(), true, "Merge Sort completed");
+            yield return new ArrayAlgorithmStatusStep<T>(array.ToArray(), true, "Merge Sort completed");
         }
 
         private IEnumerable<SortingStep<T>> SortRecursive(T[] array, T[] temp, int start, int end, IComparer<T> comparer)

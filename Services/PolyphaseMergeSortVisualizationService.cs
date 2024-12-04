@@ -9,7 +9,7 @@ using WpfApp.Services.Visualization;
 
 namespace WpfApp.Services
 {
-    public class PolyphaseMergeSortVisualizationService : IVisualizationService<string>, IDisposable
+    public class PolyphaseMergeSortVisualizationService : IArrayVisualizationService<string>, IDisposable
     {
         private readonly PolyphaseMergeSortVisualization visualization;
         private readonly ListBox logList;

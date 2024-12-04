@@ -20,9 +20,11 @@ namespace WpfApp.Services.Visualization
 
         public override void PreVisualizeStep(SortingStep<double> step)
         {
-            lastSortedIndex = step is LastSortedElementStep<double> moveStep ? moveStep.Index : lastSortedIndex;
+            if (step is not ArraySortingStep<double>) return;
+            var arrayStep = (ArraySortingStep<double>)step;
+            lastSortedIndex = arrayStep is LastSortedElementStep<double> moveStep ? moveStep.Index : lastSortedIndex;
 
-            for (int i = 0; i <= Math.Min(step.CurrentArray.Length - 1, lastSortedIndex + 1); i++)
+            for (int i = 0; i <= Math.Min(arrayStep.CurrentArray.Length - 1, lastSortedIndex + 1); i++)
             {
                 var rectangles = GetRectangles();
                 rectangles[i].Fill = sortedPortionColor;

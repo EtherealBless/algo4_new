@@ -2,7 +2,7 @@ using System;
 
 namespace WpfApp.Models.Steps
 {
-    public class NaturalSequenceStep<T> : SortingStep<T>
+    public class NaturalSequenceStep<T> : ArraySortingStep<T>
     {
         public int FirstSequenceStart { get; }
         public int FirstSequenceEnd { get; }

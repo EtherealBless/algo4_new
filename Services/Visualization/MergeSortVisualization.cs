@@ -154,15 +154,16 @@ namespace WpfApp.Services.Visualization
 
         public void UpdateVisualization(SortingStep<double> step)
         {
-            if (step == null) return;
+            if (step == null || step is not ArraySortingStep<double>) return;
 
+            var arrayStep = (ArraySortingStep<double>)step;
             // Reset colors
             foreach (var rect in mainArrayRects)
                 rect.Fill = DefaultColor;
             foreach (var rect in tempArrayRects)
                 rect.Fill = DefaultColor;
 
-            currentArray = step.CurrentArray.ToArray();
+            currentArray = arrayStep.CurrentArray.ToArray();
 
             if (step is MergeStep<double> mergeStep)
             {

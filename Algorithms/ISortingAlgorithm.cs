@@ -9,8 +9,9 @@ namespace WpfApp.Algorithms
         string Name { get; }
         string Description { get; }
         string TimeComplexity { get; }
-        
+
         // Main sorting method that yields steps for visualization
         IEnumerable<SortingStep<T>> Sort(T[] array, IComparer<T>? comparer = null);
     }
 }
+

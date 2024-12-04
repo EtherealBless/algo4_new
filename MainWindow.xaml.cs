@@ -93,11 +93,6 @@ namespace WpfApp
             Close();
         }
 
-        private void OnExternalSortsClick(object sender, RoutedEventArgs e)
-        {
-            var externalSortingWindow = new Views.ExternalSortingWindow();
-            externalSortingWindow.Show();
-        }
 
         private void OnAlgorithmSelect(object sender, RoutedEventArgs e)
         {

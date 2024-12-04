@@ -2,7 +2,7 @@ using System;
 
 namespace WpfApp.Models.Steps
 {
-    public class PartitionStep<T> : SortingStep<T>
+    public class PartitionStep<T> : ArraySortingStep<T>
     {
         public int Low { get; }
         public int High { get; }

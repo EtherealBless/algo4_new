@@ -18,7 +18,7 @@ namespace WpfApp.Algorithms
             var allSteps = new List<SortingStep<T>>();
 
             // Add initial step
-            var startStep = new AlgorithmStatusStep<T>(array, false, "Starting Quick Sort")
+            var startStep = new ArrayAlgorithmStatusStep<T>(array, false, "Starting Quick Sort")
             {
                 StepIndex = allSteps.Count,
                 AllSteps = allSteps
@@ -36,7 +36,7 @@ namespace WpfApp.Algorithms
             }
 
             // Add final step
-            var endStep = new AlgorithmStatusStep<T>(array, true, "Quick Sort Complete")
+            var endStep = new ArrayAlgorithmStatusStep<T>(array, true, "Quick Sort Complete")
             {
                 StepIndex = allSteps.Count,
                 AllSteps = allSteps
@@ -51,7 +51,7 @@ namespace WpfApp.Algorithms
             {
                 yield return new RecursionStep<T>(array, low, high, true);
 
-                yield return new AlgorithmStatusStep<T>(array, false, $"Partitioning subarray [{low}..{high}]");
+                yield return new ArrayAlgorithmStatusStep<T>(array, false, $"Partitioning subarray [{low}..{high}]");
 
                 int partitionIndex = -1;
                 foreach (var step in Partition(array, low, high))
@@ -63,7 +63,7 @@ namespace WpfApp.Algorithms
                     yield return step;
                 }
 
-                yield return new AlgorithmStatusStep<T>(array, false, $"Partition complete for [{low}..{high}]");
+                yield return new ArrayAlgorithmStatusStep<T>(array, false, $"Partition complete for [{low}..{high}]");
 
                 if (partitionIndex > low)
                 {
@@ -133,3 +133,4 @@ namespace WpfApp.Algorithms
         }
     }
 }
+
